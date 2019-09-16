@@ -1,0 +1,23 @@
+server:
+  port: 8000
+#  servlet:
+#    context-path: /api/v1
+spring:
+  application:
+    name: game-service
+  profiles:
+    active: dev
+
+oauth2-client:
+  client-id: game-web
+  secret: game-web
+  scopes: ui
+  grant-types: password, refresh_token
+  access-token-validity-seconds: 7200
+  refresh-token-validity-seconds: 360000
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+
+
