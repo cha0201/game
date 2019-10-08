@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("/game")
 @RestController
+@CrossOrigin
 public class GameController {
 
     @Autowired
@@ -23,7 +25,7 @@ public class GameController {
     public ResponseEntity getGameInfoList() {
         Query query = new Query();
         query.addCriteria(Criteria.where("game_union_name").is("日皇杯"));
-        List<GameInfo> gameInfoList = mongotemplate.find(query, GameInfo.class);
+        List<GameInfo> gameInfoList = mongotemplate.find(query, GameInfo.class);//查询mongo数据库
         return ResponseEntity.ok(gameInfoList);
     }
 
