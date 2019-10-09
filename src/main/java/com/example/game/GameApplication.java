@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.example.game.dao")
-public class MongoApplication {
+public class GameApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MongoApplication.class, args);
+        SpringApplication.run(GameApplication.class, args);
     }
 
 }
