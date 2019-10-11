@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,10 +16,9 @@ public class GameTaskRequest {
 
     private String remark;
 
-    private Date time;
+    private List<Date> time;
 
     private String creator;
-
 
 
 }

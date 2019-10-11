@@ -9,32 +9,31 @@
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="BIT" property="status" />
+    <result column="condition" jdbcType="VARCHAR" property="condition" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.game.entity.GameTask">
-    <result column="condition" jdbcType="LONGVARCHAR" property="condition" />
-    <result column="result" jdbcType="LONGVARCHAR" property="result" />
-  </resultMap>
+<!--  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.game.entity.GameTask">-->
+
+<!--  </resultMap>-->
   <sql id="Base_Column_List">
-    task_id, name, remark, create_time, creator, type, status
+    task_id, name, remark, create_time, creator, type, status,`condition`,result
   </sql>
   <sql id="Blob_Column_List">
     condition, result
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+
     from game_task
     where task_id = #{taskId,jdbcType=INTEGER}
   </select>
 
 
-  <select id="selectGameTaskList" resultMap="ResultMapWithBLOBs">
+  <select id="selectGameTaskList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+
     from game_task
     where 1=1
     order by create_time desc
@@ -48,14 +47,14 @@
   <insert id="insert" parameterType="com.example.game.entity.GameTask" useGeneratedKeys="true" keyProperty="taskId">
     insert into game_task (task_id, name, remark, 
       create_time, creator, type, 
-      status, condition, result
+      status, `condition`, result
       )
     values (#{taskId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{status,jdbcType=BIT}, #{condition,jdbcType=LONGVARCHAR}, #{result,jdbcType=LONGVARCHAR}
+      #{status,jdbcType=BIT}, #{condition,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.game.entity.GameTask">
+  <insert id="insertSelective" parameterType="com.example.game.entity.GameTask" useGeneratedKeys="true" keyProperty="taskId">
     insert into game_task
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="taskId != null">
@@ -80,7 +79,7 @@
         status,
       </if>
       <if test="condition != null">
-        condition,
+        `condition`,
       </if>
       <if test="result != null">
         result,
@@ -109,10 +108,10 @@
         #{status,jdbcType=BIT},
       </if>
       <if test="condition != null">
-        #{condition,jdbcType=LONGVARCHAR},
+        #{condition,jdbcType=VARCHAR},
       </if>
       <if test="result != null">
-        #{result,jdbcType=LONGVARCHAR},
+        #{result,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -138,24 +137,12 @@
         status = #{status,jdbcType=BIT},
       </if>
       <if test="condition != null">
-        condition = #{condition,jdbcType=LONGVARCHAR},
+        `condition` = #{condition,jdbcType=VARCHAR},
       </if>
       <if test="result != null">
-        result = #{result,jdbcType=LONGVARCHAR},
+        result = #{result,jdbcType=VARCHAR},
       </if>
     </set>
-    where task_id = #{taskId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.game.entity.GameTask">
-    update game_task
-    set name = #{name,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      status = #{status,jdbcType=BIT},
-      condition = #{condition,jdbcType=LONGVARCHAR},
-      result = #{result,jdbcType=LONGVARCHAR}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.game.entity.GameTask">
@@ -165,7 +152,10 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      status = #{status,jdbcType=BIT}
+      status = #{status,jdbcType=BIT},
+      `condition` = #{condition,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
+
 </mapper>

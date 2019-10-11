@@ -47,10 +47,10 @@ public class GameTaskServiceImpl implements GameTaskService {
         gameTask.setCondition(obj.toJSONString());
         gameTask.setCreateTime(new Date());
         gameTask.setName("1");
-        int count=gameTaskDao.insert(gameTask);
+        int count=gameTaskDao.insertSelective(gameTask);
         if(count>0){
             requestQueue.getTaskQueue().add(gameTask);
         }
-        return 0;
+        return count;
     }
 }

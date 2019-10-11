@@ -734,46 +734,46 @@ public class RedisUtil {
 		}
 	}
 
-	public void pipeline(final Map<String, Object> map) {
-		// List<Object> results = redisTemplate.executePipelined(new
-		// RedisCallback<Object>() {
-		// public Object doInRedis(RedisConnection connection) throws
-		// DataAccessException {
-		// StringRedisConnection stringRedisConn = (StringRedisConnection)
-		// connection;
-		// Set<String> set = map.keySet();
-		// for (String key: set) {
-		// stringRedisConn.set(key, map.get(key).toString());
-		// }
-		// return null;
-		// }
-		// });
-
-		RedisCallback<List<Object>> pipelineCallback = new RedisCallback<List<Object>>() {
-			@Override
-			public List<Object> doInRedis(RedisConnection connection) throws DataAccessException {
-				StringRedisConnection stringRedisConn = (StringRedisConnection) connection;
-				Set<String> set = map.keySet();
-				for (String key : set) {
-					Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
-							Object.class);
-					ObjectMapper om = new ObjectMapper();
-					om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-					om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-					jackson2JsonRedisSerializer.setObjectMapper(om);
-
-					stringRedisConn.set(key, new String(jackson2JsonRedisSerializer.serialize(map.get(key))));
-				}
-				return stringRedisConn.closePipeline();
-			}
-
-		};
-
-		List<Object> results = (List<Object>) redisTemplate.execute(pipelineCallback);
-		for (Object item : results) {
-			logger.info(item.toString());
-		}
-	}
+//	public void pipeline(final Map<String, Object> map) {
+//		// List<Object> results = redisTemplate.executePipelined(new
+//		// RedisCallback<Object>() {
+//		// public Object doInRedis(RedisConnection connection) throws
+//		// DataAccessException {
+//		// StringRedisConnection stringRedisConn = (StringRedisConnection)
+//		// connection;
+//		// Set<String> set = map.keySet();
+//		// for (String key: set) {
+//		// stringRedisConn.set(key, map.get(key).toString());
+//		// }
+//		// return null;
+//		// }
+//		// });
+//
+//		RedisCallback<List<Object>> pipelineCallback = new RedisCallback<List<Object>>() {
+//			@Override
+//			public List<Object> doInRedis(RedisConnection connection) throws DataAccessException {
+//				StringRedisConnection stringRedisConn = (StringRedisConnection) connection;
+//				Set<String> set = map.keySet();
+//				for (String key : set) {
+//					Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
+//							Object.class);
+//					ObjectMapper om = new ObjectMapper();
+//					om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//					om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//					jackson2JsonRedisSerializer.setObjectMapper(om);
+//
+//					stringRedisConn.set(key, new String(jackson2JsonRedisSerializer.serialize(map.get(key))));
+//				}
+//				return stringRedisConn.closePipeline();
+//			}
+//
+//		};
+//
+//		List<Object> results = (List<Object>) redisTemplate.execute(pipelineCallback);
+//		for (Object item : results) {
+//			logger.info(item.toString());
+//		}
+//	}
 
 	public <T> T execute(DefaultRedisScript<T> redisScript, List<String> keyList, Object... args) {
 		return redisTemplate.execute(redisScript, keyList, args);
