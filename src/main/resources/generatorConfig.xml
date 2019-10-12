@@ -36,7 +36,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.game.dao"
                              targetProject="C:\Users\shuming003\IdeaProjects/game/src/main/java"/>
 
-        <table tableName="game_task" mapperName="GameTaskDao" enableCountByExample="false"
+        <table tableName="game_user" mapperName="GameUserDao" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"/>
 

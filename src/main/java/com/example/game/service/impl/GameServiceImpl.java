@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -19,7 +18,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<GameInfo> getGameList(String name, String time) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("game_union_name").regex(".*?\\" +name+ ".*"));
+        query.addCriteria(Criteria.where("game_union_name").regex(".*?\\" + name + ".*"));
         List<GameInfo> gameInfoList = mongotemplate.find(query, GameInfo.class);//查询mongo数据库
         return gameInfoList;
     }
