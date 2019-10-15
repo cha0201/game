@@ -39,20 +39,25 @@
 
   <select id="selectGameRecordStatisticsResult" parameterType="com.example.game.value.GameRecordConditionVo" resultMap="RecordStatisticsResultMap">
     select
-    concat(#{startDateTime,jdbcType=TIMESTAMP},'~',#{endDateTime,jdbcType=TIMESTAMP}) as date,
+
     <if test="columnCondition != null and columnCondition != ''">
       ${columnCondition}
     </if>
     from game_record
     where 1=1
 
-    <if test="startDateTime != null and endDateTime != null">
+    <if test="startDateTime != null">
       and  record_date BETWEEN #{startDateTime,jdbcType=TIMESTAMP} AND #{endDateTime,jdbcType=TIMESTAMP}
     </if>
 
     <if test="condition != null and condition != ''">
       ${condition}
     </if>
+
+    <if test="account == ''  and gameUserId == ''">
+      order by record_date desc
+    </if>
+
 
   </select>
 
