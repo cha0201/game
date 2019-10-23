@@ -1,4 +1,4 @@
-package com.example.game.entity;
+package com.example.game.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +8,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class GameRecord {
-    private Integer id;
+public class GameRecordRequest {
 
-    private String recordUuid;
+    private Integer id;
 
     private Date recordDate;
 
@@ -26,12 +25,4 @@ public class GameRecord {
     private BigDecimal recordGain;
 
     private Integer gameUserId;
-
-    private String operator;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-
 }

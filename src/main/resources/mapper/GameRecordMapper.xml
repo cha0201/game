@@ -11,6 +11,7 @@
     <result column="record_valid_amount" jdbcType="DECIMAL" property="recordValidAmount" />
     <result column="record_gain" jdbcType="DECIMAL" property="recordGain" />
     <result column="game_user_id" jdbcType="INTEGER" property="gameUserId" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -68,7 +69,26 @@
 
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <select id="getGameRecordList" parameterType="com.example.game.dao.params.GameRecordParams" resultMap="BaseResultMap">
+        select
+      id, record_uuid, record_date, record_account, record_count, record_amount, record_valid_amount,
+      record_gain, (select user_nick_name from game_user where game_user_id=game_record.game_user_id) as  operator, create_time, update_time from game_record where 1=1
+
+        <if test="account != null  and account != ''">
+            and record_account=  #{account,jdbcType=VARCHAR}
+        </if>
+
+        <if test="operator != null  and operator != ''">
+            and game_user_id=  #{operator,jdbcType=VARCHAR}
+        </if>
+
+        order by record_date desc
+
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from game_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
