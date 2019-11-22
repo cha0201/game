@@ -71,9 +71,9 @@ public class GameRecordServiceImpl implements GameRecordService {
 
         String columnSql = null;
         String accountSql = " record_account as account, ";
-        String operatorSql = " (select user_nick_name from game_user where game_user_id=game_record.game_user_id) as operator ";
+        String operatorSql = " (select user_nick_name from game_user where user_id=game_record.game_user_id) as operator ";
         StringBuffer columnCondition = new StringBuffer();
-        String columnCondition1 = timeSql + " record_account as account, 1 as pourNum, record_amount as pourAmount, record_valid_amount as effectAmount, record_gain profitAmount, (select user_nick_name from game_user where game_user_id=game_record.game_user_id) as operator ";
+        String columnCondition1 = timeSql + " record_account as account, 1 as pourNum, record_amount as pourAmount, record_valid_amount as effectAmount, record_gain profitAmount, (select user_nick_name from game_user where user_id=game_record.game_user_id) as operator ";
         if (StringUtils.isEmpty(account) && !StringUtils.isEmpty(operator)) {
             accountSql = " '' as account, ";
         } else if (!StringUtils.isEmpty(account) && StringUtils.isEmpty(operator)) {

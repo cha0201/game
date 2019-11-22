@@ -73,7 +73,7 @@
     <select id="getGameRecordList" parameterType="com.example.game.dao.params.GameRecordParams" resultMap="BaseResultMap">
         select
       id, record_uuid, record_date, record_account, record_count, record_amount, record_valid_amount,
-      record_gain, (select user_nick_name from game_user where game_user_id=game_record.game_user_id) as  operator, create_time, update_time from game_record where 1=1
+      record_gain, (select user_nick_name from game_user where user_id=game_record.game_user_id) as  operator, create_time, update_time from game_record where 1=1
 
         <if test="account != null  and account != ''">
             and record_account=  #{account,jdbcType=VARCHAR}
