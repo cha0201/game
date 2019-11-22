@@ -2,7 +2,10 @@ package com.example.game.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.game.dao.GameTaskDao;
+import com.example.game.dao.TaskTestDao;
 import com.example.game.entity.GameTask;
+import com.example.game.entity.TaskTest;
+import com.example.game.request.DwTaskRequest;
 import com.example.game.request.GameTaskRequest;
 import com.example.game.response.QueryGameTaskResponse;
 import com.example.game.service.GameTaskService;
@@ -13,7 +16,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class GameTaskServiceImpl implements GameTaskService {
@@ -23,6 +28,9 @@ public class GameTaskServiceImpl implements GameTaskService {
 
     @Autowired
     private RequestQueue requestQueue;
+
+    @Autowired
+    private TaskTestDao taskTestDao;
 
     @Override
     public QueryGameTaskResponse getGameTaskList(Integer currentPage, Integer pageSize) {
@@ -52,5 +60,21 @@ public class GameTaskServiceImpl implements GameTaskService {
             requestQueue.getTaskQueue().add(gameTask);
         }
         return count;
+    }
+
+    @Override
+    public int addDwTask(DwTaskRequest dwTaskRequest) {
+        TaskTest taskTest=new TaskTest();
+        taskTest.setJc(dwTaskRequest.getJc());
+        taskTest.setDc(dwTaskRequest.getDc());
+        taskTest.setDwId(dwTaskRequest.getDwId());
+        taskTest.setTaskTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        taskTest.setZt(0);
+        return taskTestDao.insertSelective(taskTest);
+    }
+
+    @Override
+    public List<String> selectDwIdList() {
+        return taskTestDao.selectDwIdList();
     }
 }
