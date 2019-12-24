@@ -62,6 +62,8 @@ public class GameRecordServiceImpl implements GameRecordService {
             } else if ("3".equals(time)) {
                 //本月
                 startDateTime = Date.from(DateUtils.monthStart(0).atZone(ZoneOffset.ofHours(8)).toInstant());
+            }else if ("4".equals(time)){
+                startDateTime= Date.from(getYesterdayByFormat().atZone(ZoneOffset.ofHours(8)).toInstant());
             }
             timeSql = " concat('" + sdf.format(startDateTime) + "'" + ",'~','" + sdf.format(endDateTime) + "') as date,";
         }
@@ -134,6 +136,12 @@ public class GameRecordServiceImpl implements GameRecordService {
 
         return gameRecordDao.selectGameRecordStatisticsResult(new GameRecordConditionVo(startDateTime, endDateTime, account, operator, columnSql, condition.toString()));
     }
+
+
+    public static LocalDateTime getYesterdayByFormat(){
+        return LocalDateTime.now().minusDays(1);
+    }
+
 
     @Override
     public QueryGameRecordResponse getRecordList(Integer currentPage, Integer pageSize, String account, String operator) {
